@@ -12,40 +12,21 @@ export const Module = ({
   controllers = [],
   imports = [],
   exports = [],
-  provides = [],
+  providers = [],
 }: ModuleOption) => {
   return function <T extends { new (...args: any[]): {} }>(target: T) {
     Reflect.defineMetadata(MODULE_KEY, true, target);
 
-    Reflect.defineMetadata(
-      MODULE_IMPORTS_KEY,
-      imports.map((v) => v.name),
-      target
-    );
+    Reflect.defineMetadata(MODULE_IMPORTS_KEY, imports, target);
+    Reflect.defineMetadata(MODULE_CONTROLLERS_KEY, controllers, target);
+    Reflect.defineMetadata(MODULE_EXPORTS_KEY, exports, target);
+    Reflect.defineMetadata(MODULE_PROVIDERS_KEY, providers, target);
 
     for (const importModule of imports) {
-      const isModule = Reflect.getMetadata(MODULE_KEY, importModule) ?? false;
+      const isModule = Reflect.getMetadata(MODULE_KEY, importModule);
       if (!isModule) throw new Error(`${importModule.name} is not a module`);
 
       Reflect.defineMetadata(MODULE_PARENT_KEY, target, importModule);
     }
-
-    Reflect.defineMetadata(
-      MODULE_CONTROLLERS_KEY,
-      controllers.map((v) => v.name),
-      target
-    );
-
-    Reflect.defineMetadata(
-      MODULE_EXPORTS_KEY,
-      exports.map((v) => v.name),
-      target
-    );
-
-    Reflect.defineMetadata(
-      MODULE_PROVIDERS_KEY,
-      provides.map((v) => v.name),
-      target
-    );
   };
 };

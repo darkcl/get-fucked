@@ -5,5 +5,5 @@ export class ModuleMeta {
     return {};
   }
 
-  public setMeta({ controllers, imports, exports, provides }: ModuleOption) {}
+  public setMeta({ controllers, imports, exports, providers }: ModuleOption) {}
 }
