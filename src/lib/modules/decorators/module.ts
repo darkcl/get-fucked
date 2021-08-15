@@ -5,6 +5,7 @@ import {
   MODULE_EXPORTS_KEY,
   MODULE_PROVIDERS_KEY,
   MODULE_KEY,
+  MODULE_PARENT_KEY,
 } from "./const";
 
 export const Module = ({
@@ -17,14 +18,21 @@ export const Module = ({
     Reflect.defineMetadata(MODULE_KEY, true, target);
 
     Reflect.defineMetadata(
-      MODULE_CONTROLLERS_KEY,
-      controllers.map((v) => v.name),
+      MODULE_IMPORTS_KEY,
+      imports.map((v) => v.name),
       target
     );
 
+    for (const importModule of imports) {
+      const isModule = Reflect.getMetadata(MODULE_KEY, importModule) ?? false;
+      if (!isModule) throw new Error(`${importModule.name} is not a module`);
+
+      Reflect.defineMetadata(MODULE_PARENT_KEY, target, importModule);
+    }
+
     Reflect.defineMetadata(
-      MODULE_IMPORTS_KEY,
-      imports.map((v) => v.name),
+      MODULE_CONTROLLERS_KEY,
+      controllers.map((v) => v.name),
       target
     );
 

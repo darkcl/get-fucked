@@ -1,7 +1,7 @@
 import { Module } from "~lib/modules/decorators";
-import { RssModule } from "./rss";
+import { AlertModule } from "./alert";
 
 @Module({
-  imports: [RssModule],
+  imports: [AlertModule],
 })
 export class RootModule {}
