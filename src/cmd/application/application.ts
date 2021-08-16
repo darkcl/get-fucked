@@ -1,8 +1,7 @@
-import { MODULE_KEY } from "~lib/modules";
+import { MODULE_KEY, loadControllersFromModule } from "~lib/modules";
 
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { loadControllersFromModule } from "./loadControllersFromModule";
 import { attachCommand } from "./attachCommand";
 
 export class Application {

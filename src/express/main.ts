@@ -3,6 +3,11 @@
 import "reflect-metadata";
 import "module-alias/register";
 
-const bootstrap = () => {};
+import { Application } from "./application/application";
+import { RootModule } from "~core/modules/root.module";
+
+const bootstrap = () => {
+  Application.load(RootModule);
+};
 
 bootstrap();

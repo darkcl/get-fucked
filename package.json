@@ -7,15 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc -w",
     "build": "tsc",
-    "start:cli": "node dist/cmd/main.js"
+    "start:cli": "node dist/cmd/main.js",
+    "start:express": "node dist/express/main.js"
   },
   "dependencies": {
     "@types/node-fetch": "^2.5.12",
+    "express": "^4.17.1",
     "module-alias": "^2.2.2",
     "node-fetch": "^2.6.1",
     "yargs": "^17.1.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^16.6.1",
     "@types/yargs": "^17.0.2",
     "reflect-metadata": "^0.1.13",
