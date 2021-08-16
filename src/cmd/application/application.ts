@@ -2,6 +2,9 @@ import { MODULE_IMPORTS_KEY, MODULE_KEY } from "~lib/modules/decorators";
 import { loadModule } from "~lib/modules/decorators/module.load";
 import { loadController } from "~lib/modules/decorators/module.load.fn";
 
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+
 export class Application {
   static load(module: NewableFunction, controllers: unknown[] = []) {
     const isModule = Reflect.getMetadata(MODULE_KEY, module);
