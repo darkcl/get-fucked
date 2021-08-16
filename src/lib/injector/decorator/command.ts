@@ -1,0 +1,14 @@
+export const COMMANDS_KEY = "commands";
+
+export const Command = (name: string = "") => {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    let commands = Reflect.getMetadata(COMMANDS_KEY, target);
+    if (!commands) {
+      commands = {};
+    }
+
+    commands[name] = { propertyKey };
+
+    Reflect.defineMetadata(COMMANDS_KEY, commands, target.constructor);
+  };
+};

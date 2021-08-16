@@ -5,14 +5,12 @@ import {
   MODULE_KEY,
 } from "~lib/modules/decorators";
 import { loadModule } from "~lib/modules/decorators/module.load";
-import {
-  loadController,
-  loadDependency,
-} from "~lib/modules/decorators/module.load.fn";
+import { loadDependency } from "~lib/modules/decorators/module.load.fn";
 
-import yargs from "yargs";
+import yargs, { command } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { CONTROLLER_DESCRIPTION_KEY, CONTROLLER_PATH_KEY } from "~lib/injector";
+import { COMMANDS_KEY } from "~lib/injector/decorator/command";
 
 const loadControllersFromModule = (module: NewableFunction) => {
   const controllers = Reflect.getMetadata(MODULE_CONTROLLERS_KEY, module);
@@ -34,13 +32,25 @@ const attachCommand = (
   );
   const containerModule = Reflect.getMetadata(CONTAINER_MODULE_KEY, controller);
   const depMap = loadModule(containerModule);
+  const commandsMap = Reflect.getMetadata(COMMANDS_KEY, controller) ?? {};
   commands.command(
-    pathName,
+    `${pathName} <command> [context]`,
     description,
-    () => {},
+    (v) => {
+      v.positional("command", {
+        describe: `Commands supported: ${Object.keys(commandsMap).join(", ")}`,
+        type: "string",
+      }).positional("context", {
+        describe: "Extra context provided for this command",
+      });
+    },
     (argv) => {
       const controllerInstance = loadDependency(controller, depMap);
-      console.log(controllerInstance);
+      if (!controllerInstance) throw new Error("Unable to load dependency");
+
+      const functionName = commandsMap[argv.command as string]["propertyKey"];
+
+      console.log(controllerInstance[functionName](argv.context));
     }
   );
 };
