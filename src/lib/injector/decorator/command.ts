@@ -2,7 +2,7 @@ export const COMMANDS_KEY = "commands";
 
 export const Command = (name: string = "") => {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-    let commands = Reflect.getMetadata(COMMANDS_KEY, target);
+    let commands = Reflect.getMetadata(COMMANDS_KEY, target.constructor);
     if (!commands) {
       commands = {};
     }

@@ -9,4 +9,14 @@ export class AlertController {
   getFucked() {
     return this.service.getFucked();
   }
+
+  @Command("create")
+  fuckMe() {
+    return "New fuck is created";
+  }
+
+  @Command("list")
+  listFucks() {
+    return "A lot of fucks";
+  }
 }
