@@ -39,7 +39,10 @@ export class AlertController {
     @Params("id")
     @CommandContext()
     shortName: string,
-    @GuidedContext() dto: AlertUpdateDto
+
+    @Body()
+    @GuidedContext()
+    dto: AlertUpdateDto
   ) {
     return this.service.update(shortName, dto);
   }
