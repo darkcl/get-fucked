@@ -5,6 +5,8 @@ import {
   CONTROLLER_PATH_KEY,
   COMMANDS_KEY,
   ANSWERS_KEY,
+  GUIDED_CONTEXT_KEY,
+  COMMAND_CONTEXT_KEY,
 } from "~lib/injector";
 import readline from "readline";
 import { questionAsync } from "../lib/readlineAsync";
@@ -37,22 +39,24 @@ export const attachCommand = (
       if (!controllerInstance) throw new Error("Unable to load dependency");
 
       const functionName = commandsMap[argv.command as string]["propertyKey"];
-      const isGuided = commandsMap[argv.command as string]["isGuided"];
       const paramTypes = Reflect.getMetadata(
         "design:paramtypes",
         controllerInstance,
         functionName
       );
 
-      if (isGuided && paramTypes.length > 0) {
-        const rl = readline.createInterface({
-          input: process.stdin,
-          output: process.stdout,
-        });
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
 
-        const args = [];
+      const args = [];
 
-        for (const paramType of paramTypes) {
+      for (const paramType of paramTypes) {
+        const isGuided = Reflect.getMetadata(GUIDED_CONTEXT_KEY, paramType);
+        const isContext = Reflect.getMetadata(COMMAND_CONTEXT_KEY, paramType);
+
+        if (isGuided) {
           const questionMap = Reflect.getMetadata(ANSWERS_KEY, paramType);
           const fields = Object.keys(questionMap).sort(
             (a, b) => questionMap[a].order - questionMap[b].order
@@ -67,14 +71,13 @@ export const attachCommand = (
           }
 
           args.push(arg);
+        } else if (isContext) {
+          args.push(argv.context);
         }
-
-        console.log(controllerInstance[functionName](...args));
-        rl.close();
-        return;
       }
 
-      console.log(controllerInstance[functionName](argv.context));
+      console.log(controllerInstance[functionName](...args));
+      rl.close();
     }
   );
 };

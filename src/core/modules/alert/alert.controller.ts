@@ -1,4 +1,4 @@
-import { Controller, Command } from "~lib/injector";
+import { Controller, Command, GuidedContext } from "~lib/injector";
 import { AlertCreateDto } from "./alert.create.dto";
 import { AlertService } from "./alert.service";
 
@@ -11,8 +11,11 @@ export class AlertController {
     return this.service.get(shortName);
   }
 
-  @Command("create", { isGuided: true })
-  create(context: AlertCreateDto) {
+  @Command("create")
+  create(
+    @GuidedContext()
+    context: AlertCreateDto
+  ) {
     return this.service.create(context);
   }
 

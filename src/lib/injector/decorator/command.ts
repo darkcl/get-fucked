@@ -1,20 +1,11 @@
 export const COMMANDS_KEY = "commands";
 
-type CommandDecoratorOption = {
-  isGuided?: boolean;
-};
-
-export const Command = (
-  name: string = "",
-  { isGuided = false }: CommandDecoratorOption = {}
-) => {
+export const Command = (name: string = "") => {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-    let commands = Reflect.getMetadata(COMMANDS_KEY, target.constructor);
-    if (!commands) {
-      commands = {};
-    }
+    const commands =
+      Reflect.getMetadata(COMMANDS_KEY, target.constructor) ?? {};
 
-    commands[name] = { propertyKey, isGuided };
+    commands[name] = { propertyKey };
 
     Reflect.defineMetadata(COMMANDS_KEY, commands, target.constructor);
   };
