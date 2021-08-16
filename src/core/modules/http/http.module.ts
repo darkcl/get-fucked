@@ -1,4 +1,4 @@
-import { Module } from "~lib/modules/decorators";
+import { Module } from "~lib/modules";
 import { HttpService } from "./http.service";
 
 @Module({

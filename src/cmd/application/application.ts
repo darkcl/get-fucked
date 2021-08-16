@@ -3,11 +3,11 @@ import {
   MODULE_CONTROLLERS_KEY,
   MODULE_IMPORTS_KEY,
   MODULE_KEY,
-} from "~lib/modules/decorators";
-import { loadModule } from "~lib/modules/decorators/module.load";
-import { loadDependency } from "~lib/modules/decorators/module.load.fn";
+  loadModule,
+  loadDependency,
+} from "~lib/modules";
 
-import yargs, { command } from "yargs";
+import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { CONTROLLER_DESCRIPTION_KEY, CONTROLLER_PATH_KEY } from "~lib/injector";
 import { COMMANDS_KEY } from "~lib/injector/decorator/command";
