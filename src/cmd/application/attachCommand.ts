@@ -73,6 +73,8 @@ export const attachCommand = (
           args.push(arg);
         } else if (isContext) {
           args.push(argv.context);
+        } else {
+          args.push(undefined);
         }
       }
 
