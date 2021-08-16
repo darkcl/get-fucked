@@ -11,14 +11,14 @@ export class AlertCreateDto {
   service: string;
 
   @Answer({
-    question: "What is the repositories should I listen to (comma separated)?",
+    question: "What are the repositories should I listen to (comma separated)?",
     order: 3,
     handler: (answer: string) => answer.split(","),
   })
   repositories: string[];
 
   @Answer({
-    question: "What is the keywords should I listen to (comma separated)?",
+    question: "What are the keywords should I listen to (comma separated)?",
     order: 4,
     handler: (answer: string) => answer.split(","),
   })
