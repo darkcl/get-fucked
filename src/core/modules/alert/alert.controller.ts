@@ -1,6 +1,12 @@
-import { Controller, Command, GuidedContext } from "~lib/injector";
+import {
+  Controller,
+  Command,
+  GuidedContext,
+  CommandContext,
+} from "~lib/injector";
 import { AlertCreateDto } from "./alert.create.dto";
 import { AlertService } from "./alert.service";
+import { AlertUpdateDto } from "./alert.update.dto";
 
 @Controller("alert", { description: "Alert resource" })
 export class AlertController {
@@ -14,9 +20,17 @@ export class AlertController {
   @Command("create")
   create(
     @GuidedContext()
-    context: AlertCreateDto
+    dto: AlertCreateDto
   ) {
-    return this.service.create(context);
+    return this.service.create(dto);
+  }
+
+  @Command("update")
+  update(
+    @CommandContext() shortName: string,
+    @GuidedContext() dto: AlertUpdateDto
+  ) {
+    return this.service.update(shortName, dto);
   }
 
   @Command("list")

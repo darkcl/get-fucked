@@ -67,7 +67,7 @@ export const attachCommand = (
           for (const field of fields) {
             const { question, handler } = questionMap[field];
             const answer = await questionAsync(`${question} `, rl);
-            arg[field] = handler(answer);
+            arg[field] = answer ? handler(answer) : undefined;
           }
 
           args.push(arg);
