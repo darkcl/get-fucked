@@ -1,11 +1,19 @@
 import { Injectable } from "~lib/injector";
 import { AlertCreateDto } from "./alert.create.dto";
 import { existsSync, readFileSync, writeFileSync } from "fs";
+import { AlertEntity } from "./alert.entity";
 
 @Injectable()
 export class AlertService {
-  getFucked() {
-    return "I am fucked";
+  getFucked(shortName: string) {
+    const alerts: any[] = existsSync("data/alerts.json")
+      ? JSON.parse(readFileSync("data/alerts.json", "utf8"))
+      : [];
+
+    const result = alerts.find((alert) => alert.shortName === shortName);
+    if (!result) return null;
+
+    return new AlertEntity(result);
   }
 
   create(dto: AlertCreateDto) {
@@ -14,6 +22,6 @@ export class AlertService {
       : [];
     alerts.push(dto);
     writeFileSync("data/alerts.json", JSON.stringify(alerts, null, 2));
-    return dto;
+    return new AlertEntity(dto);
   }
 }

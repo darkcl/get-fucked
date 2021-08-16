@@ -7,8 +7,8 @@ export class AlertController {
   constructor(private service: AlertService) {}
 
   @Command("get")
-  getFucked() {
-    return this.service.getFucked();
+  getFucked(shortName: string) {
+    return this.service.getFucked(shortName);
   }
 
   @Command("create", { isGuided: true })
