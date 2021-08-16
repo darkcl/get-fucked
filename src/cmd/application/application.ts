@@ -9,8 +9,11 @@ import {
 
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { CONTROLLER_DESCRIPTION_KEY, CONTROLLER_PATH_KEY } from "~lib/injector";
-import { COMMANDS_KEY } from "~lib/injector/decorator/command";
+import {
+  CONTROLLER_DESCRIPTION_KEY,
+  CONTROLLER_PATH_KEY,
+  COMMANDS_KEY,
+} from "~lib/injector";
 
 const loadControllersFromModule = (module: NewableFunction) => {
   const controllers = Reflect.getMetadata(MODULE_CONTROLLERS_KEY, module);
