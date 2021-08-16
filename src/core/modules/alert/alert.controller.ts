@@ -7,17 +7,17 @@ export class AlertController {
   constructor(private service: AlertService) {}
 
   @Command("get")
-  getFucked(shortName: string) {
-    return this.service.getFucked(shortName);
+  get(shortName: string) {
+    return this.service.get(shortName);
   }
 
   @Command("create", { isGuided: true })
-  fuckMe(context: AlertCreateDto) {
+  create(context: AlertCreateDto) {
     return this.service.create(context);
   }
 
   @Command("list")
-  fuckYall() {
-    return "A lot of fucks";
+  list() {
+    return this.service.list();
   }
 }
