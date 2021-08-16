@@ -6,6 +6,7 @@ import {
   MODULE_PROVIDERS_KEY,
   MODULE_KEY,
   MODULE_PARENT_KEY,
+  CONTAINER_MODULE_KEY,
 } from "./const";
 
 export const Module = ({
@@ -19,8 +20,15 @@ export const Module = ({
 
     Reflect.defineMetadata(MODULE_IMPORTS_KEY, imports, target);
     Reflect.defineMetadata(MODULE_CONTROLLERS_KEY, controllers, target);
+    for (const controller of controllers) {
+      Reflect.defineMetadata(CONTAINER_MODULE_KEY, target, controller);
+    }
+
     Reflect.defineMetadata(MODULE_EXPORTS_KEY, exports, target);
     Reflect.defineMetadata(MODULE_PROVIDERS_KEY, providers, target);
+    for (const provider of providers) {
+      Reflect.defineMetadata(CONTAINER_MODULE_KEY, target, provider);
+    }
 
     for (const importModule of imports) {
       const isModule = Reflect.getMetadata(MODULE_KEY, importModule);
