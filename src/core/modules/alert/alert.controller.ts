@@ -13,8 +13,7 @@ export class AlertController {
 
   @Command("create", { isGuided: true })
   fuckMe(context: AlertCreateDto) {
-    console.log("context: ", context);
-    return "New fuck is created";
+    return this.service.create(context);
   }
 
   @Command("list")
