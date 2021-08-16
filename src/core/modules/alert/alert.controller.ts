@@ -16,7 +16,7 @@ export class AlertController {
   }
 
   @Command("list")
-  listFucks() {
+  fuckYall() {
     return "A lot of fucks";
   }
 }
