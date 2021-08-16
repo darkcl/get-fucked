@@ -1,12 +1,12 @@
 export const COMMANDS_KEY = "commands";
 
 type CommandDecoratorOption = {
-  guidedContext?: boolean;
+  isGuided?: boolean;
 };
 
 export const Command = (
   name: string = "",
-  { guidedContext = false }: CommandDecoratorOption = {}
+  { isGuided = false }: CommandDecoratorOption = {}
 ) => {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     let commands = Reflect.getMetadata(COMMANDS_KEY, target.constructor);
@@ -14,7 +14,7 @@ export const Command = (
       commands = {};
     }
 
-    commands[name] = { propertyKey, guidedContext };
+    commands[name] = { propertyKey, isGuided };
 
     Reflect.defineMetadata(COMMANDS_KEY, commands, target.constructor);
   };
