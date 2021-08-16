@@ -1,4 +1,5 @@
 import { Controller, Command } from "~lib/injector";
+import { AlertCreateDto } from "./alert.create.dto";
 import { AlertService } from "./alert.service";
 
 @Controller("alert", { description: "Alert resource" })
@@ -10,8 +11,9 @@ export class AlertController {
     return this.service.getFucked();
   }
 
-  @Command("create")
-  fuckMe() {
+  @Command("create", { isGuided: true })
+  fuckMe(context: AlertCreateDto) {
+    console.log("context: ", context);
     return "New fuck is created";
   }
 
