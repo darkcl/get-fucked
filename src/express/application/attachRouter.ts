@@ -1,4 +1,5 @@
 import { Express, NextFunction, Request, Response } from "express";
+import { plainToClass } from "class-transformer";
 import { join } from "path";
 import {
   CONTROLLER_PATH_KEY,
@@ -41,8 +42,9 @@ export const attachRouter = (controller: NewableFunction, app: Express) => {
           continue;
         }
         const { handler, name } = meta;
+        const result = handler({ req, res, next }, name);
 
-        args.push(handler({ req, res, next }, name));
+        args.push(plainToClass(paramType, result));
       }
 
       const result = controllerInstance[value.methodName](...args);
