@@ -13,9 +13,23 @@ A declaration which attach to:
 
 ---
 
+# Setup
+
+## tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
+```
+
+---
+
 # Common Nature
 
-- Run once
 - Evaluate from bottom to top
 - Only work with class
 
@@ -23,17 +37,142 @@ A declaration which attach to:
 
 # Class Decorator
 
+```ts
+function Freeze(target: Function) {
+  Object.freeze(target);
+  Object.freeze(target.prototype);
+}
+
+@Freeze
+class Person {
+  static version: string = "v1.0.0";
+
+  constructor(public firstName: string, public lastName: string) {}
+
+  getFullName(): string {
+    return this.fname + " " + this.lname;
+  }
+}
+
+Person.version = "v1.0.1";
+// ❌ Error => TypeError: Cannot assign to read only property 'version' of function 'class Person'
+
+Person.prototype.getFullName = null;
+// ❌ Error => TypeError: Cannot assign to read only property 'getFullName' of object '#<Person>'
+```
+
 ---
 
 # Method Decorator
+
+```ts
+function UpperCase(target, name, desc) {
+  return {
+    writable: false,
+    enumerable: false,
+    configurable: false,
+    value: () => desc.value().toUpperCase(),
+  };
+}
+
+class Person {
+  constructor(public firstName: string, public lastName: string) {}
+
+  @UpperCase
+  getFullName(): string {
+    return this.firstName + " " + this.firstName;
+  }
+}
+
+var person = new Person("Da", "Faq");
+console.log("fullname ->", person.fullname);
+console.log("person ->", person);
+```
 
 ---
 
 # Accessor / Property Decorator
 
+```ts
+function UpperCase(target, name, desc) {
+  return {
+    enumerable: false,
+    configurable: false,
+    get: function () {
+      return desc.get.call(this).toUpperCase();
+    },
+    set: function (name) {
+      desc.set.call(this, name.split(" "));
+    },
+  };
+}
+
+class Person {
+  constructor(public firstName: string, public lastName: string) {}
+
+  @UpperCase
+  get fullName(): string {
+    return this.firstName + " " + this.firstName;
+  }
+}
+
+var person = new Person("Da", "Faq");
+console.log("fullname ->", person.fullname);
+console.log("person ->", person);
+
+person.fullname = "But why";
+console.log("fullname ->", person.fullname);
+```
+
 ---
 
 # Parameter Decorator
+
+```ts
+import "reflect-metadata";
+const requiredMetadataKey = Symbol("required");
+
+function Required(target, name, index) {
+  const required: number[] =
+    Reflect.getOwnMetadata(requiredMetadataKey, target, name) || [];
+  required.push(index);
+  Reflect.defineMetadata(requiredMetadataKey, required, target, name);
+}
+
+function Validate(target, method, descriptor) {
+  const method = descriptor.value!;
+
+  descriptor.value = function () {
+    const required: number[] = Reflect.getOwnMetadata(
+      requiredMetadataKey,
+      target,
+      method
+    );
+    if (required) {
+      for (let parameterIndex of required) {
+        if (
+          parameterIndex >= arguments.length ||
+          arguments[parameterIndex] === undefined
+        ) {
+          throw new Error("Missing required argument.");
+        }
+      }
+    }
+    return method.apply(this, arguments);
+  };
+}
+
+class Person {
+  constructor() {}
+  }
+
+  @Validate
+  live(@Require purpose: Record<string, any>) {}
+}
+
+var person = new Person("Da", "Faq");
+person.live(); // Error
+```
 
 ---
 
