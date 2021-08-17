@@ -9,6 +9,7 @@ export class Application {
     if (!isModule) throw new Error(`${module.name} is not a module`);
 
     const app = express();
+    app.use(express.json());
 
     const controllers = loadControllersFromModule(module);
     for (const controller of controllers) {
