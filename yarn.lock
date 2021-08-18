@@ -3759,6 +3759,11 @@ console-browserify@^1.1.0:
   resolved "https://registry.yarnpkg.com/console-browserify/-/console-browserify-1.2.0.tgz#67063cef57ceb6cf4993a2ab3a55840ae8c49336"
   integrity sha512-ZMkYO/LkF17QvCPqM0gxw8yUzigAOZOSWSHg91FH6orS7vcEj5dVZTidN2fQ14yBSdg97RqhSNwLUXInd52OTA==
 
+console-log-tree@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/console-log-tree/-/console-log-tree-1.2.1.tgz#ebdb163f0a432fd858185aba94f47f33092d4995"
+  integrity sha512-qIr67nbaNUfhRoa0uz05Wt8TPA1fpaLdw6EZ1y3dbiHhIJ46Q+ciaJxYPx0MQGHZZKbbH4walRTZZve7WDHBxg==
+
 constants-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
