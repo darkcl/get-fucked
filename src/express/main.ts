@@ -2,6 +2,7 @@
 
 import "reflect-metadata";
 import "module-alias/register";
+require("dotenv").config();
 
 import { Application } from "./application/application";
 import { RootModule } from "~core/modules/root.module";

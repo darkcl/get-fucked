@@ -18,7 +18,6 @@ export class ReportService {
 
     for (const repository of alert.repositories) {
       const pullRequest = await this.bitbucket.getPullRequestDiff(repository);
-      console.log(pullRequest);
     }
 
     console.log(`Generating report for ${alert.name}`);
