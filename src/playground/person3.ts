@@ -1,4 +1,4 @@
-function UpperCase(target, name, desc) {
+function UpperCase3(target, name, desc) {
   return {
     enumerable: false,
     configurable: false,
@@ -11,10 +11,10 @@ function UpperCase(target, name, desc) {
   };
 }
 
-class Person {
+class Person3 {
   constructor(public firstName: string, public lastName: string) {}
 
-  @UpperCase
+  @UpperCase3
   get fullName(): string {
     return this.firstName + " " + this.lastName;
   }
@@ -25,9 +25,9 @@ class Person {
   }
 }
 
-var person = new Person("Da", "Faq");
-console.log("fullname ->", person.fullName);
-console.log("person ->", person);
+const person3 = new Person3("Da", "Faq");
+console.log("fullname ->", person3.fullName);
+console.log("person ->", person3);
 
-person.fullName = "But why";
-console.log("fullname ->", person.fullName);
+person3.fullName = "But why";
+console.log("fullname ->", person3.fullName);

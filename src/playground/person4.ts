@@ -31,7 +31,7 @@ function Validate(target, name, descriptor) {
   };
 }
 
-class Person {
+class Person4 {
   constructor() {}
 
   @Validate
@@ -40,5 +40,5 @@ class Person {
   }
 }
 
-const person = new Person();
-person.live();
+const person4 = new Person4();
+person4.live();

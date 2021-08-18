@@ -19,3 +19,5 @@ class Person {
 Person.version = "v1.0.1";
 
 Person.prototype.getFullName = null;
+
+console.log(Person, Person.prototype.getFullName);
