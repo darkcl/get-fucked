@@ -7,6 +7,7 @@ import {
   ANSWERS_KEY,
   GUIDED_CONTEXT_KEY,
   COMMAND_CONTEXT_KEY,
+  COMMAND_OUTPUT_KEY,
 } from "~lib/injector";
 import readline from "readline";
 import { questionAsync } from "../lib/readlineAsync";
@@ -78,8 +79,35 @@ export const attachCommand = (
         }
       }
 
-      console.log(await controllerInstance[functionName](...args));
+      const result = await controllerInstance[functionName](...args);
+
+      if (Array.isArray(result)) {
+        for (const item of result) {
+          outputResult(item);
+        }
+      } else {
+        outputResult(result);
+      }
       rl.close();
     }
   );
 };
+
+function outputResult(result: any) {
+  const outputHandlerMap = Reflect.getOwnMetadata(
+    COMMAND_OUTPUT_KEY,
+    result.constructor
+  );
+
+  if (outputHandlerMap) {
+    const fields = Object.keys(outputHandlerMap).sort(
+      (a, b) => outputHandlerMap[a].order - outputHandlerMap[b].order
+    );
+    for (const field of fields) {
+      const { handler } = outputHandlerMap[field];
+      handler(result[field]);
+    }
+  } else {
+    console.log(result);
+  }
+}

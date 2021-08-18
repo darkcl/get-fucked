@@ -1,4 +1,11 @@
-import { Command, CommandContext, Controller } from "~lib/injector";
+import {
+  Command,
+  CommandContext,
+  Controller,
+  Get,
+  Params,
+} from "~lib/injector";
+import { ReportEntity } from "./report.entity";
 import { ReportService } from "./report.service";
 
 @Controller("report", {
@@ -8,7 +15,10 @@ export class ReportController {
   constructor(private service: ReportService) {}
 
   @Command("generate")
-  async generate(@CommandContext() alertShortName: string) {
+  @Get(":id")
+  async generate(
+    @Params("id") @CommandContext() alertShortName: string
+  ): Promise<ReportEntity[]> {
     return await this.service.generate(alertShortName);
   }
 }
