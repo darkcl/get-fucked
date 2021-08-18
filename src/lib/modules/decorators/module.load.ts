@@ -8,14 +8,31 @@ type ModuleLoaderFunction = (
   target: NewableFunction
 ) => Record<string, NewableFunction>;
 
-export const loadModule: ModuleLoaderFunction = (target: NewableFunction) => {
+const loadImportModule = (
+  target: NewableFunction
+): Record<string, NewableFunction> => {
   const dependencyMap = {};
+
+  const exports = Reflect.getMetadata(MODULE_EXPORTS_KEY, target);
+  for (const e of exports) {
+    dependencyMap[e.name] = e;
+  }
+
   const imports = Reflect.getMetadata(MODULE_IMPORTS_KEY, target);
   for (const importModule of imports) {
-    const exports = Reflect.getMetadata(MODULE_EXPORTS_KEY, importModule);
-    for (const e of exports) {
-      dependencyMap[e.name] = e;
+    const nested = loadImportModule(importModule);
+    for (const [key, value] of Object.entries(nested)) {
+      dependencyMap[key] = value;
     }
+  }
+  return dependencyMap;
+};
+
+const loadModule: ModuleLoaderFunction = (target: NewableFunction) => {
+  const dependencyMap = {};
+  const importsMap = loadImportModule(target);
+  for (const [key, value] of Object.entries(importsMap)) {
+    dependencyMap[key] = value;
   }
 
   const providers = Reflect.getMetadata(MODULE_PROVIDERS_KEY, target);
@@ -25,3 +42,5 @@ export const loadModule: ModuleLoaderFunction = (target: NewableFunction) => {
 
   return dependencyMap;
 };
+
+export { loadModule };
