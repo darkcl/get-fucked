@@ -113,16 +113,21 @@ class Person {
 
   @UpperCase
   get fullName(): string {
-    return this.firstName + " " + this.firstName;
+    return this.firstName + " " + this.lastName;
+  }
+
+  set fullName([firstName, lastName]) {
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 }
 
 var person = new Person("Da", "Faq");
-console.log("fullname ->", person.fullname);
+console.log("fullname ->", person.fullName);
 console.log("person ->", person);
 
-person.fullname = "But why";
-console.log("fullname ->", person.fullname);
+person.fullName = "But why";
+console.log("fullname ->", person.fullName);
 ```
 
 ---
