@@ -17,6 +17,5 @@ class Person {
 }
 
 Person.version = "v1.0.1";
-// ❌ Error => TypeError: Cannot assign to read only property 'version' of function 'class Person'
 
 Person.prototype.getFullName = null;
