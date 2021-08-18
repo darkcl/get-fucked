@@ -23,8 +23,6 @@ export class Application {
     const isModule = Reflect.getMetadata(MODULE_KEY, module);
     if (!isModule) throw new Error(`${module.name} is not a module`);
 
-    const tree = [];
-
     logTree.log(loadModuleTree(module));
   }
 }
