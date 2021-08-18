@@ -7,5 +7,6 @@ import { AlertService } from "./alert.service";
   imports: [HttpModule],
   controllers: [AlertController],
   providers: [AlertService],
+  exports: [AlertService],
 })
 export class AlertModule {}
