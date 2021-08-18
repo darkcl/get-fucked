@@ -3,7 +3,6 @@ import { CommandOutput } from "~lib/injector";
 export class ReportEntity {
   @CommandOutput({
     handler: (v) => console.log(`========= ${v} =========`),
-    order: 0,
   })
   repository: string;
 
@@ -15,7 +14,6 @@ export class ReportEntity {
         console.log("--------");
       }
     },
-    order: 1,
   })
   pullRequests: Record<string, string>[];
 

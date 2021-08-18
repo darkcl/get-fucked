@@ -4,13 +4,13 @@ type AnswerHandler = (answer: string) => any;
 
 type AnswerDecoratorOptions = {
   question: string;
-  order: number;
+  order?: number;
   handler?: AnswerHandler;
 };
 
 export const Answer = ({
   question,
-  order,
+  order = 0,
   handler = (answer) => answer,
 }: AnswerDecoratorOptions) => {
   return (target: any, propertyKey: string) => {
