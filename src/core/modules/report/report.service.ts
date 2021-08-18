@@ -6,8 +6,12 @@ export class ReportService {
   constructor(private alertService: AlertService) {}
 
   generate(alertShortName: string) {
-    console.log(`Generating report for ${alertShortName}`);
     const alert = this.alertService.get(alertShortName);
-    return alert;
+    if (!alert) {
+      console.log(`Alert ${alertShortName} not found`);
+      return;
+    }
+
+    console.log(`Generating report for ${alert.name}`);
   }
 }
