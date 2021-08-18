@@ -42,7 +42,11 @@ function Freeze(target: Function) {
   Object.freeze(target);
   Object.freeze(target.prototype);
 }
+```
 
+---
+
+```ts
 @Freeze
 class Person {
   static version: string = "v1.0.0";
@@ -54,11 +58,8 @@ class Person {
   }
 }
 
-Person.version = "v1.0.1";
-// ❌ Error => TypeError: Cannot assign to read only property 'version' of function 'class Person'
-
-Person.prototype.getFullName = null;
-// ❌ Error => TypeError: Cannot assign to read only property 'getFullName' of object '#<Person>'
+Person.version = "v1.0.1"; // Error
+Person.prototype.getFullName = null; // Error
 ```
 
 ---
@@ -75,7 +76,11 @@ function UpperCase(target, name, descriptor) {
     return result.toUpperCase();
   };
 }
+```
 
+---
+
+```ts
 class Person {
   constructor(public firstName: string, public lastName: string) {}
 
@@ -107,7 +112,11 @@ function UpperCase(target, name, desc) {
     },
   };
 }
+```
 
+---
+
+```ts
 class Person {
   constructor(public firstName: string, public lastName: string) {}
 
@@ -144,7 +153,11 @@ function Required(target, name, index) {
   required.push(index);
   Reflect.defineMetadata(requiredMetadataKey, required, target, name);
 }
+```
 
+---
+
+```ts
 function Validate(target, name, descriptor) {
   const method = descriptor.value!;
 
@@ -167,7 +180,11 @@ function Validate(target, name, descriptor) {
     return method.apply(this, arguments);
   };
 }
+```
 
+---
+
+```ts
 class Person {
   constructor() {}
 
