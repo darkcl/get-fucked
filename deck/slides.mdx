@@ -145,14 +145,14 @@ function Required(target, name, index) {
   Reflect.defineMetadata(requiredMetadataKey, required, target, name);
 }
 
-function Validate(target, method, descriptor) {
+function Validate(target, name, descriptor) {
   const method = descriptor.value!;
 
   descriptor.value = function () {
     const required: number[] = Reflect.getOwnMetadata(
       requiredMetadataKey,
       target,
-      method
+      name
     );
     if (required) {
       for (let parameterIndex of required) {
@@ -170,13 +170,14 @@ function Validate(target, method, descriptor) {
 
 class Person {
   constructor() {}
-  }
 
   @Validate
-  live(@Require purpose: Record<string, any>) {}
+  live(@Required food?: string) {
+    console.log("Person live with ", food);
+  }
 }
 
-var person = new Person("Da", "Faq");
+const person = new Person();
 person.live(); // Error
 ```
 
