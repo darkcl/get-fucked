@@ -1,12 +1,15 @@
 export const COMMAND_OUTPUT_KEY = "command_output";
 
 type CommandOutputOption = {
-  handler?: (value: any) => void;
+  handler?: (value: any, name: string) => void;
   order?: number;
 };
 
 export const CommandOutput = ({
-  handler = (value: any) => console.log(value),
+  handler = (value: any, name: string) =>
+    console.log(
+      `${name}: \t${Array.isArray(value) ? `[${value.join(", ")}]` : value}`
+    ),
   order = 0,
 }: CommandOutputOption = {}) => {
   return (target: any, propertyKey: string) => {

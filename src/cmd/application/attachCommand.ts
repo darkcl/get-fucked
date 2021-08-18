@@ -84,6 +84,7 @@ export const attachCommand = (
       if (Array.isArray(result)) {
         for (const item of result) {
           outputResult(item);
+          console.log("\n");
         }
       } else {
         outputResult(result);
@@ -105,7 +106,7 @@ function outputResult(result: any) {
     );
     for (const field of fields) {
       const { handler } = outputHandlerMap[field];
-      handler(result[field]);
+      handler(result[field], field);
     }
   } else {
     console.log(result);
