@@ -78,7 +78,7 @@ export const attachCommand = (
         }
       }
 
-      console.log(controllerInstance[functionName](...args));
+      console.log(await controllerInstance[functionName](...args));
       rl.close();
     }
   );

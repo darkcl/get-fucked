@@ -13,7 +13,7 @@ import { AlertCreateDto } from "./alert.create.dto";
 import { AlertService } from "./alert.service";
 import { AlertUpdateDto } from "./alert.update.dto";
 
-@Controller("alert", { description: "Alert resource" })
+@Controller("alert", { description: "Manage alerts" })
 export class AlertController {
   constructor(private service: AlertService) {}
 

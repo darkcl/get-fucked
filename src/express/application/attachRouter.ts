@@ -30,7 +30,7 @@ export const attachRouter = (controller: NewableFunction, app: Express) => {
     );
     const reqPath = `/${join(basePath, value.path)}`;
 
-    const handler = (req: Request, res: Response, next: NextFunction) => {
+    const handler = async (req: Request, res: Response, next: NextFunction) => {
       const args = [];
       const methodMap: Record<number, HttpParamMeta> =
         paramMap[value.methodName] ?? {};
@@ -47,7 +47,7 @@ export const attachRouter = (controller: NewableFunction, app: Express) => {
         args.push(plainToClass(paramType, result));
       }
 
-      const result = controllerInstance[value.methodName](...args);
+      const result = await controllerInstance[value.methodName](...args);
       res.send(result);
     };
 
