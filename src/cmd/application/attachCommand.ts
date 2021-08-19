@@ -24,6 +24,9 @@ export const attachCommand = (
   const containerModule = Reflect.getMetadata(CONTAINER_MODULE_KEY, controller);
   const depMap = loadModule(containerModule);
   const commandsMap = Reflect.getMetadata(COMMANDS_KEY, controller) ?? {};
+  const controllerInstance = loadDependency(controller, depMap);
+  if (!controllerInstance) throw new Error("Unable to load dependency");
+
   commands.command(
     `${pathName} <command> [context]`,
     description,
@@ -36,9 +39,6 @@ export const attachCommand = (
       });
     },
     async (argv) => {
-      const controllerInstance = loadDependency(controller, depMap);
-      if (!controllerInstance) throw new Error("Unable to load dependency");
-
       const functionName = commandsMap[argv.command as string]["propertyKey"];
       const paramTypes = Reflect.getMetadata(
         "design:paramtypes",
