@@ -9,7 +9,7 @@ import { ReportEntity } from "./report.entity";
 import { ReportService } from "./report.service";
 
 @Controller("report", {
-  description: "Report if someone fucked over your service",
+  description: "Report if someone try to fuck over your service",
 })
 export class ReportController {
   constructor(private service: ReportService) {}
